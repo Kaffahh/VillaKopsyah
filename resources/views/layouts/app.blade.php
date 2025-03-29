@@ -11,9 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-
+    
     <style>
         :root {
             --primary-color: #34495e;
@@ -53,23 +51,13 @@
         }
 
         .modal-backdrop {
-            background-color: rgba(0, 0, 0, 0.5) !important;
+            background-color: rgba(0, 0, 0, 0.1) !important;
         }
-        
-        .modal {
-            background: rgba(0, 0, 0, 0.3);
-        }
-        
-        .modal-dialog {
-            margin: 1.75rem auto;
-        }
-        
+
         .modal-content {
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
         }
-    
+
         .list-group-item:hover {
             background-color: #f8f9fa;
         }
@@ -361,28 +349,6 @@
             direction: rtl;
             /* Membuat text mulai dari kanan */
         }
-
-        /* Modal styles */
-        .modal-header {
-            border-bottom: 1px solid #dee2e6;
-            background-color: #f8f9fa;
-        }
-
-        .modal-body {
-            padding: 1.5rem;
-        }
-
-        .modal-dialog-centered {
-            display: flex;
-            align-items: center;
-            min-height: calc(100% - 1rem);
-        }
-
-        /* Loading spinner */
-        .spinner-border {
-            width: 3rem;
-            height: 3rem;
-        }
     </style>
 </head>
 
@@ -585,8 +551,13 @@
         &copy; 2025 Penyewaan Villa BMI. Semua Hak Dilindungi.
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    @yield('scripts')
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const main = document.querySelector('main');
