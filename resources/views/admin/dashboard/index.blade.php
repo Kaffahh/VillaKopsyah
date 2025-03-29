@@ -1,6 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    .card-body {
+        cursor: pointer;
+    }
+
+    .card-default {
+        border: 3px solid #d0d0d0;
+    }
+
+    .card-selected {
+        border: 3px solid #007bff;
+    }
+
+    .jump:hover {
+        transform: translateY(-5px);
+        transition: transform 0.2s ease;
+    }
+</style>
     <div class="row text-center">
         <div class="col-md-3 mb-3">
             <div class="card card-default jump" id="cardRequest" onclick="tab('tab1', this)">
@@ -186,6 +204,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
     let villaChart; // Deklarasi global untuk chart
 
