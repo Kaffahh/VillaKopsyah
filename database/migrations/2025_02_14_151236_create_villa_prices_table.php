@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('villa_prices', function (Blueprint $table) {
             $table->id();
             $table->foreignId('villa_id')->constrained('villas')->onDelete('cascade');
-            $table->decimal('price_per_night', 10, 2);
+            $table->decimal('price_per_night', 15, 2);
             $table->timestamps();
         });
     }

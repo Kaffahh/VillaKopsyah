@@ -13,7 +13,7 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     
     <style>
-        :root {
+       :root {
             --primary-color: #34495e;
             --secondary-color: #2c3e50;
             --background-color: #f4f4f4;
@@ -46,17 +46,8 @@
             padding-left: 20px;
         }
 
-        .modal {
-            z-index: 1050 !important;
-        }
 
-        .modal-backdrop {
-            background-color: rgba(0, 0, 0, 0.1) !important;
-        }
 
-        .modal-content {
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-        }
 
         .list-group-item:hover {
             background-color: #f8f9fa;
@@ -555,8 +546,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    @yield('scripts')
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

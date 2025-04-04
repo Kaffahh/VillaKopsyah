@@ -81,108 +81,7 @@
         ])
     </div>
 
-@section('modal')
-    <!-- Modals -->
-    @foreach ($requests as $request)
-        <div class="modal fade" id="modal-{{ $request->id }}" tabindex="-1" aria-labelledby="modalLabel-{{ $request->id }}" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header bg-light">
-                        <h5 class="modal-title" id="modalLabel-{{ $request->id }}">Detail Request</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="card border-0 mb-3">
-                                    <div class="card-body">
-                                        <h6 class="card-title text-dark mb-3"><i class="bi bi-person-lines-fill me-2"></i>Informasi Pemohon</h6>
-                                        <table class="table table-borderless">
-                                            <tr>
-                                                <td class="text-muted" style="width: 120px;">Nama</td>
-                                                <td class="text-dark">{{ $request->user->name }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-muted">Email</td>
-                                                <td class="text-dark">{{ $request->user->email }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-muted">Status</td>
-                                                <td>
-                                                    @if ($request->status == 'pending')
-                                                        <span class="badge bg-warning bg-opacity-10 text-warning">Pending</span>
-                                                    @elseif($request->status == 'approved')
-                                                        <span class="badge bg-success bg-opacity-10 text-success">Disetujui</span>
-                                                    @elseif($request->status == 'rejected')
-                                                        <span class="badge bg-danger bg-opacity-10 text-danger">Ditolak</span>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-muted">Tanggal</td>
-                                                <td class="text-dark">{{ $request->created_at->format('d M Y H:i') }}</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card border-0">
-                                    <div class="card-body">
-                                        <h6 class="card-title text-dark mb-3"><i class="bi bi-files me-2"></i>Dokumen</h6>
-                                        <div class="mb-3">
-                                            <label class="form-label text-muted">KTP</label>
-                                            <a href="{{ asset('storage/' . $request->ktp_image) }}" target="_blank" class="d-block">
-                                                <img src="{{ asset('storage/' . $request->ktp_image) }}" class="img-thumbnail w-100" alt="KTP">
-                                            </a>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label text-muted">Kartu Keluarga</label>
-                                            <a href="{{ asset('storage/' . $request->kk_image) }}" target="_blank" class="d-block">
-                                                <img src="{{ asset('storage/' . $request->kk_image) }}" class="img-thumbnail w-100" alt="KK">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-12">
-                                <div class="card border-0">
-                                    <div class="card-body">
-                                        <h6 class="card-title text-dark mb-3"><i class="bi bi-house me-2"></i>Foto Villa</h6>
-                                        <a href="{{ asset('storage/' . $request->villa_image) }}" target="_blank">
-                                            <img src="{{ asset('storage/' . $request->villa_image) }}" class="img-fluid rounded" alt="Foto Villa">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer bg-light">
-                        @if ($request->status == 'pending')
-                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
-                            <form method="POST" action="{{ route('admin.reject', $request->id) }}" class="d-inline">
-                                @csrf
-                                <button type="submit" class="btn btn-outline-danger">
-                                    <i class="bi bi-x-circle"></i> Tolak
-                                </button>
-                            </form>
-                            <form method="POST" action="{{ route('admin.approve', $request->id) }}" class="d-inline">
-                                @csrf
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="bi bi-check-circle"></i> Setujui
-                                </button>
-                            </form>
-                        @else
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endforeach
-@endsection
+
 
 <div id="tab2" style="display: none;">
     @include('admin.dashboard.tab2', [
@@ -201,9 +100,6 @@
     @include('admin.dashboard.tab4')
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
     let villaChart; // Deklarasi global untuk chart
@@ -316,7 +212,7 @@
             modal.show();
 
             $.ajax({
-                url: `/admin/villas/${villaId}/detail`,
+                url: /admin/villas/${villaId}/detail,
                 method: 'GET',
                 success: function(response) {
                     // ... existing villa detail code ...
@@ -333,7 +229,7 @@
             modal.show();
 
             $.ajax({
-                url: `/admin/pemilik_villa/${ownerId}/detail`,
+                url: /admin/pemilik_villa/${ownerId}/detail,
                 method: 'GET',
                 success: function(response) {
                     // ... existing owner detail code ...
