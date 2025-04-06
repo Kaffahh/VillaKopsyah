@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Notifications\RequestExpiredNotification;
 
 class Request extends Model
 {
@@ -45,5 +46,18 @@ class Request extends Model
     public function scopeRejected($query)
     {
         return $query->where('status', 'rejected');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Ketika request diupdate
+        static::updated(function ($request) {
+            // Jika status berubah menjadi rejected karena expired
+            if ($request->isDirty('status') && $request->status === 'rejected' && $request->expired_at < now()) {
+                $request->user->notify(new RequestExpiredNotification());
+            }
+        });
     }
 }

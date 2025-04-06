@@ -13,12 +13,19 @@ class PemilikVillaSeeder extends Seeder
      */
     public function run(): void
     {
-        PemilikVilla::create([            
+        PemilikVilla::create([
             'user_id' => 3,
             // 'address' => 'Jl. Gweh No. 1',
             'gender' => 'Male',
             // 'job' => '-',
             'birthdate' => '1945-08-17',
+            'province_code' => null,
+            'city_code' => null,
+            'district_code' => null,
+            'village_code' => null,
+            'rtrw' => null,
+            'kode_pos' => null,
+            'nomor_rumah' => null,
         ]);
     }
 }

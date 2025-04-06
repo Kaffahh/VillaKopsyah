@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Request as VillaRequest;
 use App\Models\User;
 use App\Models\Villa;
+use App\Models\Customer;
+use App\Models\PemilikVilla;
 // use Illuminate\Http\Request;
 use App\Notifications\RequestStatusNotification;
 use Carbon\Carbon;
@@ -200,31 +202,64 @@ class AdminController extends Controller
     public function approve($id)
     {
         try {
-            DB::transaction(function () use ($id) {
-                $request = VillaRequest::findOrFail($id);
+            DB::beginTransaction();
 
-                $request->update([
-                    'status' => 'approved',
-                    'expired_at' => null
+            $request = VillaRequest::findOrFail($id);
+            $user = $request->user;
+
+            // Cek apakah user adalah customer
+            $customer = Customer::where('user_id', $user->id)->first();
+
+            if ($customer) {
+                // Pindahkan data dari customers ke pemilik_villa
+                PemilikVilla::create([
+                    'user_id' => $user->id,
+                    'gender' => $customer->gender ?? 'Male',
+                    'birthdate' => $customer->birthdate,
+                    // Data lokasi
+                    'province_code' => $customer->province_code ?? null,
+                    'city_code' => $customer->city_code ?? null,
+                    'district_code' => $customer->district_code ?? null,
+                    'village_code' => $customer->village_code ?? null,
+                    'rtrw' => $customer->rtrw ?? null,
+                    'kode_pos' => $customer->kode_pos ?? null,
+                    'nomor_rumah' => $customer->nomor_rumah ?? null,
                 ]);
 
-                $request->user()->update(['role' => 'pemilik_villa']);
+                // Hapus data dari tabel customers
+                $customer->delete();
+            } else {
+                // Jika bukan customer, buat data pemilik villa baru
+                PemilikVilla::create([
+                    'user_id' => $user->id,
+                    'gender' => 'Male', // Default value
+                    'birthdate' => now(),
+                ]);
+            }
 
-                $this->sendNotification(
-                    $request,
-                    'approved',
-                    'Pengajuan Anda telah disetujui. Sekarang Anda adalah pemilik villa.'
-                );
+            // Update request status
+            $request->update([
+                'status' => 'approved',
+                'expired_at' => null
+            ]);
 
-                // Clear relevant cache
-                Cache::forget('dashboard_counts');
-            });
+            // Update user role
+            $user->update(['role' => 'pemilik_villa']);
 
+            // Kirim notifikasi
+            $this->sendNotification(
+                $request,
+                'approved',
+                'Pengajuan Anda telah disetujui. Sekarang Anda adalah pemilik villa.'
+            );
+
+            DB::commit();
             return redirect()->route('admin.requests')
-                ->with('success', 'Pengajuan telah disetujui.');
+                ->with('success', 'Pengajuan telah disetujui dan data berhasil dipindahkan.');
         } catch (\Exception $e) {
+            DB::rollBack();
             Log::error('Approval failed: ' . $e->getMessage());
-            return back()->with('error', 'Gagal menyetujui pengajuan.');
+            return back()->with('error', 'Gagal menyetujui pengajuan: ' . $e->getMessage());
         }
     }
 

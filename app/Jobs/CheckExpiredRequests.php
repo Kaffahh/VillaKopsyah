@@ -9,6 +9,8 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+use App\Notifications\RequestStatusNotification;
 
 class CheckExpiredRequests implements ShouldQueue
 {
@@ -16,15 +18,33 @@ class CheckExpiredRequests implements ShouldQueue
 
     public function handle()
     {
-        // Ambil request yang sudah expired (expired_at < sekarang)
-        $expiredRequests = VillaRequest::where('status', 'pending')
-            ->where('expired_at', '<', now())
-            ->get();
+        try {
+            DB::beginTransaction();
 
-        // Update status request yang expired
-        foreach ($expiredRequests as $request) {
-            $request->update(['status' => 'expired']);
-            Log::info("Request ID {$request->id} telah expired.");
+            // Ambil request yang sudah expired (expired_at < sekarang) dan masih pending
+            $expiredRequests = VillaRequest::where('status', 'pending')
+                ->where('expired_at', '<', now())
+                ->get();
+
+            foreach ($expiredRequests as $request) {
+                // Update status request menjadi rejected
+                $request->update([
+                    'status' => 'rejected'
+                ]);
+
+                // Kirim notifikasi ke user
+                $request->user->notify(new RequestStatusNotification(
+                    'rejected',
+                    'Pengajuan Anda telah dibatalkan karena melewati batas waktu.'
+                ));
+
+                Log::info("Request ID {$request->id} telah expired dan dibatalkan.");
+            }
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error("Error in CheckExpiredRequests job: " . $e->getMessage());
         }
     }
 }
