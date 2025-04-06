@@ -102,7 +102,7 @@
         <div class="card p-3 border-0 shadow-sm">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h6 class="text-muted mb-0">Grafik Pertambahan Villa</h6>
-                <select id="filterGrafikVilla" class="form-select form-select-sm w-auto border">
+                <select id="filterGrafikVilla" class="form-select form-select-sm w-auto">
                     <option value="mingguan">Mingguan</option>
                     <option value="bulanan">Bulanan</option>
                 </select>
