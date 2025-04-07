@@ -3,7 +3,7 @@
 @section('title', 'Data Petugas')
 
 @section('content')
-    <div class="card mb-3">
+    <div class="card shadow-sm mb-3">
         <div class="card-body d-flex align-items-center">
             <!-- Dropdown Pilihan Villa -->
             <select id="villaSelector" class="form-select me-2" style="max-width: 300px;">
@@ -25,7 +25,7 @@
     <div class="mb-3">
         <div class="row">
             <div class="col-md-10 d-flex align-items-stretch">
-                <div class="card card-default w-100">
+                <div class="card shadow-sm card-default w-100">
                     <div class="card-body px-5 d-flex align-items-center">
                         <div>
                             <h1 class="card-title">Semua Petugas</h1>
@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="col-md-2 d-flex align-items-stretch text-center">
-                <div class="card card-default w-100">
+                <div class=" shadow-sm card-default w-100">
                     <div class="card-body">
                         <i class="bi bi-person-fill" style="font-size: 60px; color: #007bff;"></i>
                         <h5 class="card-title">Total Petugas</h5>
@@ -45,7 +45,7 @@
         </div>
     </div>
 
-    <div class="card">
+    <div class="card shadow-sm">
         <div class="card-body">
             <div class="row">
                 <div class="col">

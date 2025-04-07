@@ -1,50 +1,62 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">{{ __('Dashboard') }}</div>
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header py-3"><h4 class="mb-0">Daftar Customer</h4></div>
 
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
+                <div class="card-body">
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
+                    <div class="mb-3">
                         <a href="{{ route('register') }}" class="btn btn-primary btn-sm">Tambah Customer</a>
-                        <h2>Daftar Customer</h2>
-                        <table class="table" border="1">
+                    </div>
+                    
+                    <table class="table table-bordered table-hover text-center table-striped">
+                        <thead class="table-primary">
                             <tr>
+                                <th scope="col">No</th>
                                 <th scope="col">Nama</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Address</th>
-                                <th scope="col" class="text-center">Gender</th>
-                                <th scope="col" class="text-center">Job</th>
-                                <th scope="col" class="text-center">Birthdate</th>
-                                <th scope="col" class="text-center">Aksi</th>
+                                <th scope="col">Gender</th>
+                                <th scope="col">Job</th>
+                                <th scope="col">Birthdate</th>
+                                <th scope="col">Aksi</th>
                             </tr>
-                            @foreach ($customers as $customer)
+                        </thead>
+                        <tbody>
+                            @forelse ($customers as $customer)
                                 <tr>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $customer->user->name }}</td>
                                     <td>{{ $customer->user->email }}</td>
                                     <td>{{ $customer->address }}</td>
-                                    <td class="text-center">{{ $customer->gender }}</td>
-                                    <td class="text-center">{{ $customer->job }}</td>
-                                    <td class="text-center">{{ $customer->birthdate }}</td>
-                                    <td class="text-center">
-                                        <a href="{{ route('admin.customers.edit', $customer->id) }}" class="btn btn-primary">Edit</a>
-                                        <form action="{{ route('admin.customers.destroy', $customer->id) }}" method="POST" style="display:inline;">
+                                    <td>{{ $customer->gender }}</td>
+                                    <td>{{ $customer->job }}</td>
+                                    <td>{{ $customer->birthdate }}</td>
+                                    <td>
+                                        <a href="{{ route('admin.customers.edit', $customer->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                                        
+                                        <form action="{{ route('admin.customers.destroy', $customer->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
                                         </form>
                                     </td>
                                 </tr>
-                            @endforeach
-                        </table>
-                    </div>
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="text-center">Tidak ada customer ditemukan.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

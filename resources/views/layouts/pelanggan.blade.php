@@ -56,7 +56,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item"><a class="nav-link" href="/">Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/villa">Villa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/villas">Villa</a></li>
                     <li class="nav-item"><a class="nav-link" href="/fasilitas">Fasilitas</a></li>
                     <li class="nav-item"><a class="nav-link" href="/kontak">Kontak</a></li>
                 </ul>
